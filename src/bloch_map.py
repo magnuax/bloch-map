@@ -31,37 +31,49 @@ def plot_channel(T, N=50):
             x_[i, j], y_[i, j], z_[i, j] = utils.state_to_bloch(T(X_))
 
     fig = plt.figure()
-    ax1 = fig.add_subplot(111, projection="3d")
-    #ax2 = fig.add_subplot(122, projection="3d")
+    ax = fig.add_subplot(111, projection="3d")
 
-    ax1.plot_surface(x, y, z, color="k", alpha=0.2)
-    ax1.plot_surface(x_, y_, z_, color="r")
+    ax.plot_surface(x, y, z, color="k", alpha=0.1, edgecolor="k", cstride=2, rstride=2)
+    ax.plot_surface(x_, y_, z_, color="r")
     
-    axs = [ax1]
-    for ax in axs:    
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-        ax.set_zlabel("Z")
-        
-        ax.set_xlim([-1, 1])
-        ax.set_ylim([-1, 1])
-        ax.set_zlim([-1, 1])
+    ax.text(0, 0, 1.2, r"$|\uparrow\rangle$", fontsize=15, horizontalalignment="center")
+    ax.text(0, 0, -1.3, r"$|\downarrow\rangle$", fontsize=15, horizontalalignment="center")
+
+    ax.text(1.2, 0, 0, r"$|+\rangle$", fontsize=15, horizontalalignment="center")
+    ax.text(-1.3, 0, 0, r"$|-\rangle$", fontsize=15, horizontalalignment="center")
     
-        ax.set_xticks([-1, 0, 1])
-        ax.set_yticks([-1, 0, 1])
-        ax.set_zticks([-1, 0, 1])
-        
-        ax.set_aspect("equal", adjustable="box")        
+    ax.text(0, 1.2, 0, r"$|\rightarrow\rangle$", fontsize=15, horizontalalignment="center")
+    ax.text(0, -1.3, 0, r"$|\leftarrow\rangle$", fontsize=15, horizontalalignment="center")
+
+    ax.plot([0, 0], [0, 0], [-1, 1], "k--", marker="o", zorder=0, markersize=5, alpha=0.5)
+    ax.plot([0, 0], [-1, 1], [0, 0], "k--", marker="o", zorder=0, markersize=5, alpha=0.5)
+    ax.plot([-1, 1], [0, 0], [0, 0], "k--", marker="o", zorder=0, markersize=5, alpha=0.5)
     
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_zlabel("Z")
+    
+    ax.set_xlim([-1.25, 1.25])
+    ax.set_ylim([-1.25, 1.25])
+    ax.set_zlim([-1.25, 1.25])
+
+    ax.set_xticks([-1, 0, 1])
+    ax.set_yticks([-1, 0, 1])
+    ax.set_zticks([-1, 0, 1])
+    
+    ax.set_aspect("equal", adjustable="box")        
+
     color = ax.patch.get_facecolor()
     fig.patch.set_facecolor(color)
-    plt.show()
+    
+    return fig, ax
     
     
 if __name__ == "__main__":
-    
+        
     T = lambda X: utils.depolarizing_channel(X, p=0.1)
-    
-    plot_channel(T)
-    plot_channel(utils.example_map)
-    
+    fig, ax = plot_channel(T)
+    plt.show()
+
+    fig, ax = plot_channel(utils.example_map)
+    plt.show()
