@@ -31,13 +31,13 @@ def plot_channel(T, N=50):
             x_[i, j], y_[i, j], z_[i, j] = utils.state_to_bloch(T(X_))
 
     fig = plt.figure()
-    ax1 = fig.add_subplot(121, projection="3d")
-    ax2 = fig.add_subplot(122, projection="3d")
+    ax1 = fig.add_subplot(111, projection="3d")
+    #ax2 = fig.add_subplot(122, projection="3d")
 
-    ax1.plot_surface(x, y, z, color="b", alpha=0.5)
-    ax2.plot_surface(x_, y_, z_, color="r", alpha=0.5)
+    ax1.plot_surface(x, y, z, color="k", alpha=0.2)
+    ax1.plot_surface(x_, y_, z_, color="r")
     
-    axs = [ax1, ax2]
+    axs = [ax1]
     for ax in axs:    
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
@@ -63,4 +63,5 @@ if __name__ == "__main__":
     T = lambda X: utils.depolarizing_channel(X, p=0.1)
     
     plot_channel(T)
+    plot_channel(utils.example_map)
     
