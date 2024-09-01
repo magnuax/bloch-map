@@ -12,3 +12,8 @@ $$
 can be seen below
 
 ![alt text](https://github.com/magnuax/bloch-map/blob/main/examples/example.png?raw=true)
+
+
+Modified version using dash/plotly:
+
+![alt text](https://github.com/magnuax/bloch-map/blob/main/examples/dash.png?raw=true)
