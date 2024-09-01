@@ -34,3 +34,15 @@ def example_map(X):
 def depolarizing_channel(X, p=0.5):
     out = (1-p)*X + p*np.eye(2)/2
     return out
+
+def dephasing_x_channel(X, p=0.5):
+    out = (1-p)*X + p*pauli_x*X*pauli_x
+    return out
+
+def dephasing_y_channel(X, p=0.5):
+    out = (1-p)*X + p*pauli_y*X*pauli_y
+    return out
+
+def dephasing_z_channel(X, p=0.5):
+    out = (1-p)*X + p*pauli_z*X*pauli_z
+    return out
