@@ -57,7 +57,11 @@ bloch_instance = BlochMap()
 
 def update_graph(selected_channel, p):
     channel_func = channel_functions[selected_channel]
-    return bloch_instance.plot_channel(channel_func, p/100)
+    figure = bloch_instance.plot_channel(channel_func, p/100)
 
+    # Maintain view state
+    figure.update_layout(uirevision='constant',)
+
+    return figure
 if __name__ == "__main__":
     app.run_server(debug=True)
