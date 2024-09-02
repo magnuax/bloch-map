@@ -15,8 +15,6 @@ def plot_channel(p, qx, qy, qz, N=50):
     T1 = lambda X: utils.dephasing_x_channel(T0(X), p=qx)
     T2 = lambda X: utils.dephasing_y_channel(T1(X), p=qy)
     T = lambda X: utils.dephasing_z_channel(T2(X), p=qz)
-    
-    
 
     theta = np.linspace(0, 2*np.pi, N)
     phi   = np.linspace(0, np.pi, N)    
@@ -44,7 +42,7 @@ def plot_channel(p, qx, qy, qz, N=50):
         colorscale='Greys',
         showscale=False,
     )
-
+    
     trace_channel = go.Surface(
         x=x_,
         y=y_,
@@ -86,7 +84,35 @@ def plot_channel(p, qx, qy, qz, N=50):
         line=dict(color='black', width=2, dash='dash'),
         showlegend=False
     ))
+    
+    # Latitude and Longitude lines
+    grid_lines = []
+    num_lines = 48
+    phi_lines = np.linspace(0, np.pi, num_lines)
+    theta_lines = np.linspace(0, 2*np.pi, num_lines)
+    
+    for phi in phi_lines[::8]:
+        x_phi = np.sin(phi) * np.cos(theta_lines)
+        y_phi = np.sin(phi) * np.sin(theta_lines)
+        z_phi = np.cos(phi) * np.ones_like(theta_lines)
+        grid_lines.append(go.Scatter3d(
+            x=x_phi, y=y_phi, z=z_phi, 
+            mode='lines', 
+            line=dict(color='rgba(0, 0, 0, 0.05)', width=1),
+            showlegend=False
+        ))
 
+    for theta in theta_lines[::8]:
+        x_theta = np.sin(phi_lines) * np.cos(theta)
+        y_theta = np.sin(phi_lines) * np.sin(theta)
+        z_theta = np.cos(phi_lines)
+        grid_lines.append(go.Scatter3d(
+            x=x_theta, y=y_theta, z=z_theta, 
+            mode='lines', 
+            line=dict(color='rgba(0, 0, 0, 0.05)', width=1),
+            showlegend=False
+        ))
+        
     layout = go.Layout(
         scene=dict(
             xaxis=dict(range=[-1.25, 1.25], tickvals=[-1, 0, 1], title="X"),
@@ -100,7 +126,7 @@ def plot_channel(p, qx, qy, qz, N=50):
         plot_bgcolor='rgba(255,255,255,0)',
     )
 
-    fig = go.Figure(data=[trace_bloch_sphere, trace_channel] + axis_lines, layout=layout)
+    fig = go.Figure(data=[trace_bloch_sphere, trace_channel] + axis_lines + grid_lines, layout=layout)
     
     return fig
 
